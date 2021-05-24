@@ -35,7 +35,7 @@ export class AppointmentsPage extends React.Component {
     componentDidMount() {
         this.updateTitle();         
         this.updateContact();
-        this.updateDate();                 
+        this.updateDate();
         this.updateTime();
     }
     componentDidUpdate(prevProps, prevState, snapShot) {

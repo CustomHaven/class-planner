@@ -2,25 +2,30 @@ import React from 'react';
 import { ContactPicker } from "../contactPicker/ContactPicker";
 
 export class AppointmentForm extends React.Component {  
-    
-    
+    constructor(props) {
+        super(props);
+        this.getTodayString = this.getTodayString.bind(this);
+        this.getContactNames = this.getContactNames.bind(this);
+    }
+    getContactNames() {
+        return this.props.contacts.map((contact) => contact.name);
+    }
+    getTodayString() {
+        const [month, day, year] = new Date().toLocaleDateString("en-US").split('/');
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    }
     render() {
-        // const {contacts, title, updateTitle, contact, updateContact, date, updateDate, 
-        //     time, updateTime, handleSubmit} = this.props;
-        
-        const getContactNames = () => this.props.contacts.map((contact) => contact.name);
-        const getTodayString = () => {
-            const [month, day, year] = new Date().toLocaleDateString("en-US").split('/');
-            return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-        }
+
+        const {title, updateTitle, contact, updateContact, date, updateDate, 
+            time, updateTime, handleSubmit} = this.props;
         return (
-            <form onSubmit={this.props.handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <label>
                 <input 
                     name="title"
                     type="text"
-                    value={this.props.title}
-                    onChange={(e) => this.props.updateTitle(e.target.value)}
+                    value={title}
+                    onChange={(e) => updateTitle(e.target.value)}
                     required
                     placeholder="Appointment Title"
                 />
@@ -29,9 +34,9 @@ export class AppointmentForm extends React.Component {
             <label>
                 <ContactPicker 
                     name="contact"
-                    value={this.props.contact}
-                    contacts={getContactNames()}
-                    onChange={(e) => this.props.updateContact(e.target.value)}
+                    value={contact}
+                    contacts={this.getContactNames()}
+                    onChange={(e) => updateContact(e.target.value)}
                     placeholder="Appointment with"
                 />
             </label>
@@ -40,9 +45,9 @@ export class AppointmentForm extends React.Component {
                 <input 
                     name="date"
                     type="date"
-                    value={this.props.date}
-                    min={getTodayString()}
-                    onChange={(e) => this.props.updateDate(e.target.value)}
+                    value={date}
+                    min={this.getTodayString()}
+                    onChange={(e) => updateDate(e.target.value)}
                     requried
                 />
             </label>
@@ -51,8 +56,8 @@ export class AppointmentForm extends React.Component {
                 <input
                     name="time"
                     type="time"
-                    value={this.props.time}
-                    onChange={(e) => this.props.updateTime(e.target.value)}
+                    value={time}
+                    onChange={(e) => updateTime(e.target.value)}
                     required
                 />
             </label>
